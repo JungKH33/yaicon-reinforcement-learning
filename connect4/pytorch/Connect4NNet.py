@@ -20,11 +20,13 @@ class ResidualBlock(nn.Module):
 
 
 class ValueHead(nn.Module):
-    def __init__(self):
+    def __init__(self, in_channels):
         super(ValueHead, self).__init__()
-        self.conv1 = nn.Conv2d(1, 1, kernel_size=1, stride=1, padding=0)
+        self.conv1 = nn.Conv2d(in_channels, 1, kernel_size=1, stride=1, padding=0)
         self.bn1 = nn.BatchNorm2d(1)
-        self.fc1 = nn.Linear(256, 256)
+
+        # depends on the input
+        self.fc1 = nn.Linear(42, 256)
         self.fc2 = nn.Linear(256, 1)
 
     def forward(self, x):
@@ -36,16 +38,19 @@ class ValueHead(nn.Module):
 
 
 class PolicyHead(nn.Module):
-    def __init__(self, action_size):
+    def __init__(self, action_size, in_channels):
         super(PolicyHead, self).__init__()
-        self.conv1 = nn.Conv2d(1, 1, kernel_size=2, stride=1, padding=0)
+        self.conv1 = nn.Conv2d(in_channels, 1, kernel_size=2, stride=1, padding=0)
         self.bn1 = nn.BatchNorm2d(1)
-        self.fc = nn.Linear(256, action_size)
+
+        # depends on the input size
+        self.fc = nn.Linear(30, action_size)
 
     def forward(self, x):
         x = F.relu(self.bn1(self.conv1(x)))
         x = x.view(x.size(0), -1)  # Flatten
         x = F.softmax(self.fc(x), dim=1)
+
         return x
 
 
@@ -58,8 +63,8 @@ class Connect4NNet(nn.Module):
         self.conv1 = nn.Conv2d(1, args.num_channels, kernel_size=3, stride=1, padding=1)
         self.bn1 = nn.BatchNorm2d(args.num_channels)
         self.res_blocks = nn.ModuleList([ResidualBlock(args.num_channels) for _ in range(args.num_residual_layers)])
-        self.value_head = ValueHead()
-        self.policy_head = PolicyHead(self.action_size)
+        self.value_head = ValueHead(args.num_channels)
+        self.policy_head = PolicyHead(self.action_size, args.num_channels)
         self.optimizer = optim.Adam(self.parameters(), lr=args.lr)
 
     def forward(self, x):
