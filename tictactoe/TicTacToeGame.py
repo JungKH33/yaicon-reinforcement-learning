@@ -95,7 +95,7 @@ class TicTacToeGame(Game):
         return board.tostring()
 
     @staticmethod
-    def display(board):
+    def display(board, prob = None):
         n = board.shape[0]
 
         print("   ", end="")

@@ -15,6 +15,11 @@ from connect4.Connect4Game import Connect4Game
 from connect4.Connect4Players import *
 from connect4.keras.NNet import NNetWrapper as Connect4Net
 
+# tictactoe
+from tictactoe.TicTacToeGame import TicTacToeGame
+from tictactoe.TicTacToePlayers import *
+from tictactoe.keras.NNet import NNetWrapper as TicTacToeNet
+
 import numpy as np
 from utils import *
 
@@ -80,12 +85,21 @@ if game_choice == '0':
 
 elif game_choice == '1':
     game = Connect4Game()
+    display = Connect4Game.display
+
     gp = OneStepLookaheadConnect4Player(game).play
     hp = HumanOthelloPlayer(game).play
     neural_net = Connect4Net(game)
 
+
 elif game_choice == '2':
-    pass
+    game = TicTacToeGame()
+    display = TicTacToeGame.display
+
+    gp = OneStepLookaheadConnect4Player(game).play
+    hp = HumanTicTacToePlayer(game).play
+    neural_net = TicTacToeNet(game)
+    neural_net.load_checkpoint('../pretrained_models/tictactoe/keras/', 'best-25eps-25sim-10epch.pth.tar')
 
 
 if performance_choice == '0':
