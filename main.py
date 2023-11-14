@@ -51,8 +51,8 @@ args = dotdict({
     'cpuct': 1,
 
     'checkpoint': './temp/',
-    'load_model': False,
-    'load_folder_file': ('./pretrained_models/gomoku','best_policy_8_8_5.model'),
+    'load_model': True,
+    'load_folder_file': ('./best_models/dotsandboxes','best5_5.pth.tar'),
     'numItersForTrainExamplesHistory': 20,
 
 })
@@ -66,7 +66,7 @@ def main():
     #g = QuoridorGame(5)
     #g = YachtDiceGame()
     #g = TaflGame()
-    g = DotsAndBoxesGame(3)
+    g = DotsAndBoxesGame(5)
 
 
     log.info('Loading %s...', GobangNet.__name__)
