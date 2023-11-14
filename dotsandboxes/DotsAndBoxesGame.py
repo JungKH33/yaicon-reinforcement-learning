@@ -109,7 +109,7 @@ class DotsAndBoxesGame(Game):
         return board.tostring()
 
     @staticmethod
-    def display(board):
+    def display(board, prob = None):
         n = board.shape[1]
         for i in range(n):
             for j in range(n-1):
