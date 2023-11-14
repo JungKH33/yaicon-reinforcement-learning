@@ -1,7 +1,7 @@
 import sys
 sys.path.append('..')
+sys.path.append('../games')
 
-import Arena
 import Arena_Advice
 from MCTS import MCTS
 
@@ -12,13 +12,26 @@ from othello.pytorch.NNet import NNetWrapper as OthelloNet
 
 # connect 4
 from connect4.Connect4Game import Connect4Game
-from connect4.Connect4Players import *
-from connect4.keras.NNet import NNetWrapper as Connect4Net
+from connect4.pytorch.NNet import NNetWrapper as Connect4Net
 
 # tictactoe
 from tictactoe.TicTacToeGame import TicTacToeGame
 from tictactoe.TicTacToePlayers import *
-from tictactoe.keras.NNet import NNetWrapper as TicTacToeNet
+# from tictactoe.keras.NNet import NNetWrapper as TicTacToeNet
+
+# tictactoe 3d
+from tictactoe_3d.TicTacToeGame import TicTacToe3DGame
+from tictactoe_3d.TicTacToePlayers import *
+# from tictactoe_3d.keras.NNet import NNetWrapper as TicTacToeNet
+
+# gobang
+from gobang import GobangGame
+from gobang.pytorch.NNet import NNetWrapper as GobangNet
+
+# dots and boxes
+from dotsandboxes.DotsAndBoxesGame import DotsAndBoxesGame
+from dotsandboxes.DotsAndBoxesPlayers import *
+from dotsandboxes.pytorch.NNet import NNetWrapper as DotsAndBoxesNet
 
 import numpy as np
 from utils import *
@@ -27,7 +40,7 @@ from utils import *
 print("\n알파제로에 오신 것을 환영합니다! 게임 목록은 다음과 같습니다")
 
 ## Game Choice
-games = ['오셀로', '커넥트4', '틱택토', '3차원 틱택토', '산토리니']
+games = ['오셀로', '커넥트4', '틱택토', '3차원 틱택토', '전투오목', 'Dots and Boxes']
 for i in range(len(games)):
     print(f"{i}. {games[i]}")
 
@@ -71,35 +84,63 @@ while performance_choice not in valid_inputs:
     performance_choice = input("Invalid input, enter a number listed above: ")
 
 
-
-
 ## switch statements
+
+# 오셀로
 if game_choice == '0':
     game = OthelloGame(8)
     display = OthelloGame.display
 
-    gp = GreedyOthelloPlayer(game).play
     hp = HumanOthelloPlayer(game).play
     neural_net = OthelloNet(game)
     neural_net.load_checkpoint('../pretrained_models/othello/pytorch/', '8x8_100checkpoints_best.pth.tar')
 
+# 커넥트 4
 elif game_choice == '1':
     game = Connect4Game()
     display = Connect4Game.display
 
-    gp = OneStepLookaheadConnect4Player(game).play
     hp = HumanOthelloPlayer(game).play
     neural_net = Connect4Net(game)
 
-
+# 틱택토
 elif game_choice == '2':
     game = TicTacToeGame()
     display = TicTacToeGame.display
 
-    gp = OneStepLookaheadConnect4Player(game).play
     hp = HumanTicTacToePlayer(game).play
     neural_net = TicTacToeNet(game)
     neural_net.load_checkpoint('../pretrained_models/tictactoe/keras/', 'best-25eps-25sim-10epch.pth.tar')
+
+# 틱택토 3d
+elif game_choice == '3':
+    game = TicTacToe3DGame()
+    display = TicTacToe3DGame.display
+
+    hp = HumanTicTacToe3DPlayer(game).play
+    # 여기 수정해야함
+    neural_net = TicTacToeNet(game)
+    neural_net.load_checkpoint('../pretrained_models/tictactoe/keras/', 'best-25eps-25sim-10epch.pth.tar')
+
+# 전투오목
+elif game_choice == '4':
+    game = GobangGame()
+    display = GobangGame.display
+
+    hp = HumanGobangPlayer(game).play
+    neural_net = GobangNet(game)
+    neural_net.load_checkpoint('../pretrained_models/gobang/pytorch', 'best.pth.tar')
+
+# dots and boxes
+elif game_choice == '5':
+    game = DotsAndBoxesGame(5)
+    display = DotsAndBoxesGame.display
+
+    hp = HumanDotsAndBoxesPlayer(game).play
+    neural_net = DotsAndBoxesNet(game)
+    neural_net.load_checkpoint('../pretrained_models/dotsandboxes/pytorch', 'best.pth.tar')
+
+
 
 
 if performance_choice == '0':

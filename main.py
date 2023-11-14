@@ -1,5 +1,7 @@
 import logging
+import sys
 
+sys.path.append('./games')
 import coloredlogs
 
 from Coach import Coach
@@ -13,7 +15,7 @@ from connect4.Connect4Game import Connect4Game
 from connect4.pytorch.NNet import NNetWrapper as Connect4Net
 
 # gobang
-from gobang.GobangGame import GobangGame
+from gobang import GobangGame
 from gobang.pytorch.NNet import NNetWrapper as GobangNet
 
 # quoridor
@@ -21,15 +23,12 @@ from gobang.pytorch.NNet import NNetWrapper as GobangNet
 #from quoridor.pytorch.NNet import NNetWrapper as QuoridorNet
 
 # gomoku
-from gomoku.pytorch.NNet import NNetWrapper as GomokuNet
 
 # yatch
 from yacht.YachtDiceGame import YachtDiceGame
-from yacht.pytorch.NNet import NNetWrapper as YachtNet
+from yacht.pytorch.NNet import NNetWrapper as YachtDiceNet
 
 # tafl
-from tafl.TaflGame import TaflGame
-from tafl.pytorch.NNet import NNetWrapper as YachtNet
 
 # dots and boxes
 from dotsandboxes.DotsAndBoxesGame import DotsAndBoxesGame

@@ -34,11 +34,11 @@ from tictactoe.keras.NNet import NNetWrapper as TicTacToeKerasNNet
 from tictactoe_3d.TicTacToeGame import TicTacToeGame as TicTacToe3DGame
 from tictactoe_3d.keras.NNet import NNetWrapper as TicTacToe3DKerasNNet
 
-from connect4.Connect4Game import Connect4Game
-from connect4.keras.NNet import NNetWrapper as Connect4KerasNNet
+from games.connect4.Connect4Game import Connect4Game
+from games.connect4.keras import NNetWrapper as Connect4KerasNNet
 
-from gobang.GobangGame import GobangGame
-from gobang.keras.NNet import NNetWrapper as GobangKerasNNet
+from games.gobang import GobangGame
+from games.gobang import NNetWrapper as GobangKerasNNet
 
 from tafl.TaflGame import TaflGame
 from tafl.pytorch.NNet import NNetWrapper as TaflPytorchNNet
@@ -47,8 +47,8 @@ from tafl.keras.NNet import NNetWrapper as TaflKerasNNet
 from rts.RTSGame import RTSGame
 from rts.keras.NNet import NNetWrapper as RTSKerasNNet
 
-from dotsandboxes.DotsAndBoxesGame import DotsAndBoxesGame
-from dotsandboxes.keras.NNet import NNetWrapper as DotsAndBoxesKerasNNet
+from games.dotsandboxes.DotsAndBoxesGame import DotsAndBoxesGame
+from games.dotsandboxes.keras.NNet import NNetWrapper as DotsAndBoxesKerasNNet
 
 import numpy as np
 from utils import *
