@@ -43,6 +43,7 @@ def start_game():
 
     game_window = tk.Toplevel(root)
     arena = ArenaGUI(master = game_window, game = chosen_game, mode = chosen_mode, difficulty = chosen_difficulty)
+    arena.update_board()
     game_window.mainloop()
 
 
