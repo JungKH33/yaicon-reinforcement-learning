@@ -102,6 +102,7 @@ elif game_choice == '1':
 
     hp = HumanOthelloPlayer(game).play
     neural_net = Connect4Net(game)
+    neural_net.load_checkpoint('../pretrained_models/othello/pytorch/', '8x8_100checkpoints_best.pth.tar')
 
 # 틱택토
 elif game_choice == '2':
