@@ -4,7 +4,7 @@ sys.path.append('../games')
 import tkinter as tk
 from tkinter import ttk
 
-from OthelloGUI import OthelloGUI
+from othello.gui.OthelloGUI import OthelloGUI
 
 class ArenaGUI():
     def __init__(self, master, game, mode, difficulty):
