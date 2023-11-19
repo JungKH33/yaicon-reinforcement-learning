@@ -23,6 +23,8 @@ from gobang.pytorch.NNet import NNetWrapper as GobangNet
 #from quoridor.pytorch.NNet import NNetWrapper as QuoridorNet
 
 # gomoku
+from gomoku.GomokuGame import GomokuGame
+from gomoku.pytorch.NNet import NNetWrapper as GomokuNet
 
 # yatch
 from yacht.YachtDiceGame import YachtDiceGame
@@ -47,12 +49,12 @@ args = dotdict({
     'updateThreshold': 0.6,     # During arena playoff, new neural net will be accepted if threshold or more of games are won.
     'maxlenOfQueue': 200000,    # Number of game examples to train the neural networks.
     'numMCTSSims': 100,          # Number of games moves for MCTS to simulate.
-    'arenaCompare': 20,         # Number of games to play during arena play to determine if new net will be accepted.
+    'arenaCompare': 30,         # Number of games to play during arena play to determine if new net will be accepted.
     'cpuct': 1,
 
     'checkpoint': './temp/',
     'load_model': True,
-    'load_folder_file': ('./best_models/dotsandboxes','best5_5.pth.tar'),
+    'load_folder_file': ('./temp','best.pth.tar'),
     'numItersForTrainExamplesHistory': 20,
 
 })
@@ -64,9 +66,10 @@ def main():
     #g = Connect4Game()
     #g = GobangGame(8)
     #g = QuoridorGame(5)
+    g = GomokuGame()
     #g = YachtDiceGame()
     #g = TaflGame()
-    g = DotsAndBoxesGame(5)
+    #g = DotsAndBoxesGame(5)
 
 
     log.info('Loading %s...', GobangNet.__name__)
@@ -74,9 +77,9 @@ def main():
     #nnet = Connect4Net(g)
     #nnet = GobangNet(g)
     #nnet = QuoridorGame(g)
-    #nnet = GomokuNet(g)
+    nnet = GomokuNet(g)
     #nnet = YachtNet(g)
-    nnet = DotboxNet(g)
+    #nnet = DotboxNet(g)
 
     if args.load_model:
         log.info('Loading checkpoint "%s/%s"...', args.load_folder_file[0], args.load_folder_file[1])

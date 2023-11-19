@@ -16,6 +16,7 @@ class GomokuNNet(nn.Module):
         super(GomokuNNet, self).__init__()
 
         self.board_width, self.board_height = game.getBoardSize()
+
         # common layers
         self.conv1 = nn.Conv2d(1, 32, kernel_size=3, padding=1)
         self.conv2 = nn.Conv2d(32, 64, kernel_size=3, padding=1)
@@ -31,6 +32,7 @@ class GomokuNNet(nn.Module):
 
     def forward(self, state_input):
         # common layers
+        state_input = state_input.view(-1, 1, self.board_width, self.board_height)
         x = F.relu(self.conv1(state_input))
         x = F.relu(self.conv2(x))
         x = F.relu(self.conv3(x))

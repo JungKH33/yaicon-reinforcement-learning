@@ -117,10 +117,5 @@ class NNetWrapper(NeuralNet):
             raise ("No model in path {}".format(filepath))
         map_location = None if args.cuda else 'cpu'
 
-        #checkpoint = torch.load(filepath, map_location=map_location)
-        import pickle
-        checkpoint = pickle.load(open(filepath, 'rb'), encoding='bytes')
-
-        for i, param in enumerate(self.nnet.parameters()):
-            break
-            param.data = torch.nn.Parameter(torch.tensor(checkpoint[i]))
+        checkpoint = torch.load(filepath, map_location=map_location)
+        self.nnet.load_state_dict(checkpoint['state_dict'])
