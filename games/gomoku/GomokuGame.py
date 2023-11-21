@@ -100,7 +100,7 @@ class GomokuGame(Game):
         return board.tostring()
 
     @staticmethod
-    def display(board):
+    def display(board, prob = None):
         n = board.shape[0]
 
         for y in range(n):
@@ -110,15 +110,19 @@ class GomokuGame(Game):
         for y in range(n):
             print(y, "|", end="")    # print the row #
             for x in range(n):
-                piece = board[y][x]    # get the piece to print
-                if piece == -1:
-                    print("b ", end="")
-                elif piece == 1:
-                    print("W ", end="")
-                else:
-                    if x == n:
-                        print("-", end="")
+                if prob == None:
+                    piece = board[y][x]    # get the piece to print
+                    if piece == -1:
+                        print("b ", end="")
+                    elif piece == 1:
+                        print("W ", end="")
                     else:
-                        print("- ", end="")
+                        if x == n:
+                            print("-", end="")
+                        else:
+                            print("- ", end="")
+
+                else:
+                    print("{:5.2f}".format(prob[y * n + x] * 100), end=" ")
             print("|")
         print("   -----------------------")

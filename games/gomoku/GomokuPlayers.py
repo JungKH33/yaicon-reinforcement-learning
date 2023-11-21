@@ -22,8 +22,9 @@ class HumanGomokuPlayer():
         valid = self.game.getValidMoves(board, 1)
         for i in range(len(valid)):
             if valid[i]:
-                print(int(i/self.game.n), int(i%self.game.n))
+                print(int(i/self.game.n), int(i%self.game.n), end=", ")
         while True:
+            print()
             a = input()
 
             x,y = [int(x) for x in a.split(' ')]

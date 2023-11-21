@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-from ArenaGUI import ArenaGUI
+from gui.ArenaGUI import ArenaGUI
 
 root = tk.Tk()
 root.title("Game Selector")

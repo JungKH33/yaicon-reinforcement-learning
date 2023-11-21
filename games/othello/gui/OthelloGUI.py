@@ -72,8 +72,8 @@ class OthelloGUI():
         self.player_label.config(text=f"현재 플레이어: {'흑돌' if self.curPlayer == 1 else '백돌'}")
 
         # Add a start button
-        start_button = tk.Button(self.master, text="Start Game", command= self.start_game)
-        start_button.pack(pady=20)  # Add some vertical padding
+        self.start_button = tk.Button(self.master, text="Start Game", command= self.start_game)
+        self.start_button.pack(pady=20)  # Add some vertical padding
 
     def on_clicked(self, event):
         if str(self.players[self.curPlayer + 1]) == 'ai':
@@ -92,6 +92,8 @@ class OthelloGUI():
 
     def start_game(self):
         print("Game Started!")
+
+        self.start_button.pack_forget()
         if str(self.players[self.curPlayer + 1]) == 'ai':
             self.game_loop()
 

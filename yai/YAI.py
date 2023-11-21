@@ -24,9 +24,10 @@ from tictactoe_3d.TicTacToeGame import TicTacToe3DGame
 from tictactoe_3d.TicTacToePlayers import *
 # from tictactoe_3d.keras.NNet import NNetWrapper as TicTacToeNet
 
-# gobang
-from gobang import GobangGame
-from gobang.pytorch.NNet import NNetWrapper as GobangNet
+# gomoku
+from gomoku.GomokuGame import GomokuGame
+from gomoku.GomokuPlayers import *
+from gomoku.pytorch.NNet import NNetWrapper as GomokuNet
 
 # dots and boxes
 from dotsandboxes.DotsAndBoxesGame import DotsAndBoxesGame
@@ -40,7 +41,7 @@ from utils import *
 print("\n알파제로에 오신 것을 환영합니다! 게임 목록은 다음과 같습니다")
 
 ## Game Choice
-games = ['오셀로', '커넥트4', '틱택토', '3차원 틱택토', '전투오목', 'Dots and Boxes']
+games = ['오셀로', '커넥트4', '틱택토', '3차원 틱택토', '오목', 'Dots and Boxes']
 for i in range(len(games)):
     print(f"{i}. {games[i]}")
 
@@ -123,14 +124,14 @@ elif game_choice == '3':
     neural_net = TicTacToeNet(game)
     neural_net.load_checkpoint('../pretrained_models/tictactoe/keras/', 'best-25eps-25sim-10epch.pth.tar')
 
-# 전투오목
+# 오목
 elif game_choice == '4':
-    game = GobangGame()
-    display = GobangGame.display
+    game = GomokuGame()
+    display = GomokuGame.display
 
-    hp = HumanGobangPlayer(game).play
-    neural_net = GobangNet(game)
-    neural_net.load_checkpoint('../pretrained_models/gobang/pytorch', 'best.pth.tar')
+    hp = HumanGomokuPlayer(game).play
+    neural_net = GomokuNet(game)
+    neural_net.load_checkpoint('../best_models/gomoku', 'gomoku_885_v4.pth.tar')
 
 # dots and boxes
 elif game_choice == '5':
@@ -141,26 +142,23 @@ elif game_choice == '5':
     neural_net = DotsAndBoxesNet(game)
     neural_net.load_checkpoint('../pretrained_models/dotsandboxes/pytorch', 'best.pth.tar')
 
-
-
-
 if performance_choice == '0':
-    args = dotdict({'numMCTSSims': 10, 'cpuct': 1.0})
+    args = dotdict({'numMCTSSims': 30, 'cpuct': 2.0})
 
 elif performance_choice == '1':
-    args = dotdict({'numMCTSSims': 30, 'cpuct': 1.0})
+    args = dotdict({'numMCTSSims': 50, 'cpuct': 2.0})
 
 elif performance_choice == '2':
-    args = dotdict({'numMCTSSims': 50, 'cpuct': 1.0})
+    args = dotdict({'numMCTSSims': 100, 'cpuct': 2.0})
 
 elif performance_choice == '3':
-    args = dotdict({'numMCTSSims': 100, 'cpuct': 1.0})
+    args = dotdict({'numMCTSSims': 300, 'cpuct': 2.0})
 
 elif performance_choice == '4':
-    args = dotdict({'numMCTSSims': 500, 'cpuct': 1.0})
+    args = dotdict({'numMCTSSims': 700, 'cpuct': 2.0})
 
 elif performance_choice == '5':
-    args = dotdict({'numMCTSSims': 1000, 'cpuct': 1.0})
+    args = dotdict({'numMCTSSims': 1500, 'cpuct': 2.0})
 
 ##
 
@@ -175,7 +173,6 @@ elif mode_choice == '1':
     player1 = hp
     player2 = hp
 ##
-
 
 
 # play game
