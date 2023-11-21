@@ -56,6 +56,33 @@ class MCTS():
         for i in range(self.args.numMCTSSims):
             self.search(canonicalBoard)
 
+    def getallValues(self, canonicalBoard):
+        for i in range(self.args.numMCTSSims):
+            self.search(canonicalBoard)
+
+        s = self.game.stringRepresentation(canonicalBoard)
+        counts = [self.Nsa[(s, a)] if (s, a) in self.Nsa else 0 for a in range(self.game.getActionSize())]
+        counts_sum = float(sum(counts))
+        policy = [x / counts_sum for x in counts]
+
+        # normalize action values
+
+        action_value_f = []
+        for a in range(self.game.getActionSize()):
+            if (s, a) in self.Qsa:
+                q_value = self.Qsa[(s, a)]
+                # Check if q_value is a scalar
+                if np.isscalar(q_value):
+                    action_value_f.append(q_value)  # If it's a scalar, use it as is
+                else:
+                    action_value_f.append((q_value[0] + 1) / 2)  # If it's an array, access the first element
+            else:
+                action_value_f.append(0)  # Default case when (s, a) is not in self.Qsa
+
+        # get value function
+        value_f = np.dot(np.array(policy), np.array(action_value_f))
+        return policy, action_value_f, value_f
+
 
     def search(self, canonicalBoard):
         """
