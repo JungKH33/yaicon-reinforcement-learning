@@ -1,0 +1,53 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gomoku Visualization</title>
+</head>
+<body>
+    <h1>Gomoku Visualization</h1>
+    <div id="board"></div>
+    <script>
+        const boardElement = document.getElementById('board');
+
+        function renderBoard(board) {
+            boardElement.innerHTML = '';
+            for (let row = 0; row < board.length; row++) {
+                for (let col = 0; col < board[row].length; col++) {
+                    const cell = document.createElement('div');
+                    cell.classList.add('cell');
+                    cell.dataset.row = row;
+                    cell.dataset.col = col;
+                    cell.textContent = board[row][col];
+                    boardElement.appendChild(cell);
+                }
+            }
+        }
+
+        async function makeMove(row, col) {
+            await fetch(`/make_move/${row}/${col}`, { method: 'POST' });
+            updateBoard();
+        }
+
+        async function updateBoard() {
+            const response = await fetch('/get_board');
+            const data = await response.json();
+            renderBoard(data.board);
+        }
+
+        boardElement.addEventListener('click', async (event) => {
+            const cell = event.target;
+            const row = cell.dataset.row;
+            const col = cell.dataset.col;
+            if (row !== undefined && col !== undefined) {
+                await makeMove(row, col);
+            }
+        });
+
+        // Initial board update
+        updateBoard();
+    </script>
+</body>
+</html>
